@@ -27,6 +27,7 @@ Now, we are ready to run ADMIXTURE. We will run it with cross-validation (the de
 
 Let’s now run it in a for loop with K=2 to K=5 and direct the output into log files
 
+This might take some time to run
 ```
 for i in {2..5}; do  admixture --cv $FILE.bed $i> log${i}.out; done
 ```
@@ -67,7 +68,10 @@ XT1_ZY_no_adapt._sorted.bam Lab
 XT7_WY_no_adapt__sorted.bam Lab
 all_ROM19161_sorted.bam Liberia
 ```
-
+Then I downloaded the whole directory to local computer to make it easier to customize
+```bash
+rsync -axvH --no-g --no-p premacht@beluga.computecanada.ca:/scratch/premacht/admixture_with_admix_2024 .
+```
 
 
 
