@@ -39,4 +39,35 @@ awk '/CV/ {print $3,$4}' *out | cut -c 4,7-20 > $FILE.cv.error
 grep "CV" *out | awk '{print $3,$4}' | sed -e 's/(//;s/)//;s/://;s/K=//'  > $FILE.cv.error
 grep "CV" *out | awk '{print $3,$4}' | cut -c 4,7-20 > $FILE.cv.error
 ```
+To make plotting easier, we can make a file with the individual names in one column and the species names in the second column
+
+# This command extractf file names and pop names for most. But you will have to re check and change them
+```
+awk '{split($1,name,"_"); print $1,name[2]}' $FILE.nosex > $FILE.list
+```
+example changed file
+
+```txt
+F_Ghana_WZ_BJE4687_combined__sorted.bam Ghana
+F_IvoryCoast_xen228_combined__sorted.bam IvoryCoast
+F_Nigeria_EUA0331_combined__sorted.bam Nigeria
+F_Nigeria_EUA0333_combined__sorted.bam Nigeria
+F_SierraLeone_AMNH17272_combined__sorted.bam SierraLeone
+F_SierraLeone_AMNH17274_combined__sorted.bam SierraLeone
+JBL052_concatscafs_sorted.bam Ref
+M_Ghana_WY_BJE4362_combined__sorted.bam Ghana
+M_Ghana_ZY_BJE4360_combined__sorted.bam Ghana
+M_Nigeria_EUA0334_combined__sorted.bam Nigeria
+M_Nigeria_EUA0335_combined__sorted.bam Nigeria
+M_SierraLeone_AMNH17271_combined__sorted.bam SierraLeone
+M_SierraLeone_AMNH17273_combined__sorted.bam SierraLeone
+XT10_WZ_no_adapt._sorted.bam Lab
+XT11_WW_trim_no_adapt_scafconcat_sorted.bam Lab
+XT1_ZY_no_adapt._sorted.bam Lab
+XT7_WY_no_adapt__sorted.bam Lab
+all_ROM19161_sorted.bam Liberia
+```
+
+
+
 
