@@ -55,8 +55,12 @@ Now, we are ready to run ADMIXTURE. We will run it with cross-validation (the de
 Let’s now run it in a for loop with K=2 to K=5 and direct the output into log files
 
 This might take some time to run
+
+Change seed with -s
+-C is termination criteria. Change numbers to meet the maximum number of iterations or 
+to stop when the log-likelihood change between iterations falls below that value
 ```
-for i in {2..5}; do  admixture --cv $FILE.bed $i> log${i}.out; done
+for i in {2..5}; do  admixture  -C 0.0000001 -s 12345 --cv $FILE.bed $i> log${i}.out; done
 ```
 To identify the best value of k clusters which is the value with lowest cross-validation error, we need to collect the cv errors. Below are three different ways to extract the number of K and the CV error for each corresponding K. Like we said at the start of the course, there are many ways to achieve the same thing in bioinformatics!
 
