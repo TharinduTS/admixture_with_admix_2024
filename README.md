@@ -36,7 +36,7 @@ vcftools --remove-indv F_Nigeria_EUA0331_combined__sorted.bam --remove-indv F_Ni
 
 # Generate the input file in plink format
 ```bash
-FILE=Pundamilia.RAD
+FILE=trop_WGS
 plink --geno 0.999 --vcf trop_WGS_no_cal_mello_niger_all_chrs.vcf.gz --make-bed --out $FILE --allow-extra-chr --double-id
 ```
 here I had to use --double-id as I had '_' s in my sample names
