@@ -31,25 +31,63 @@ vcf-concat combined_Chr10.g.vcf.gz_Chr10_GenotypedSNPs.vcf.gz_filtered.vcf.gz_fi
 
 removed not needed samples
 ```bash
+#!/bin/sh
+#SBATCH --job-name=fst
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --time=2:00:00
+#SBATCH --mem=30gb
+#SBATCH --output=abba.%J.out
+#SBATCH --error=abba.%J.err
+#SBATCH --account=def-ben
+
+#SBATCH --mail-user=premacht@mcmaster.ca
+#SBATCH --mail-type=BEGIN
+#SBATCH --mail-type=END
+#SBATCH --mail-type=FAIL
+#SBATCH --mail-type=REQUEUE
+#SBATCH --mail-type=ALL
+
+module load vcftools
+
 vcftools --remove-indv F_Nigeria_EUA0331_combined__sorted.bam --remove-indv F_Nigeria_EUA0333_combined__sorted.bam --remove-indv M_Nigeria_EUA0334_combined__sorted.bam --remove-indv M_Nigeria_EUA0335_combined__sorted.bam --remove-indv all_calcaratus_sorted.bam --remove-indv mello_GermSeq_sorted.bam --gzvcf trop_WGS_all_20_samples_all_chrs.vcf.gz --recode --out trop_WGS_no_cal_mello_niger_all_chrs.vcf.gz
 ```
 
 # Generate the input file in plink format
 ```bash
+#!/bin/sh
+#SBATCH --job-name=fst
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --time=2:00:00
+#SBATCH --mem=30gb
+#SBATCH --output=abba.%J.out
+#SBATCH --error=abba.%J.err
+#SBATCH --account=def-ben
+
+#SBATCH --mail-user=premacht@mcmaster.ca
+#SBATCH --mail-type=BEGIN
+#SBATCH --mail-type=END
+#SBATCH --mail-type=FAIL
+#SBATCH --mail-type=REQUEUE
+#SBATCH --mail-type=ALL
+
+module load plink
 FILE=trop_WGS
 plink --geno 0.999 --vcf trop_WGS_no_cal_mello_niger_all_chrs.vcf.gz --make-bed --out $FILE --allow-extra-chr --double-id
+awk '{$1="0";print $0}' $FILE.bim > $FILE.bim.tmp
+mv $FILE.bim.tmp $FILE.bim
 ```
 here I had to use --double-id as I had '_' s in my sample names
 --geno 0.999 remove all loci where more than 99.9% of genotypes are missing.
 
 This produces a bynch of support files. 
 
-ADMIXTURE does not accept chromosome names that are not human chromosomes. We will thus just exchange the first column by 0
+ADMIXTURE does not accept chromosome names that are not human chromosomes. We will thus just exchange the first column by 0 with following lines which are already included in the script above
 
-```bash
 awk '{$1="0";print $0}' $FILE.bim > $FILE.bim.tmp
 mv $FILE.bim.tmp $FILE.bim
-```
+
 Now, we are ready to run ADMIXTURE. We will run it with cross-validation (the default is 5-fold CV, for higher, choose e.g. cv=10) and K=2.
 
 Let’s now run it in a for loop with K=2 to K=5 and direct the output into log files
