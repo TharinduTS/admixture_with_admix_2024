@@ -56,7 +56,7 @@ Let’s now run it in a for loop with K=2 to K=5 and direct the output into log 
 
 This might take some time to run
 
-Change seed with -s
+Change seed with -s. Or remove this to make it random
 -C is termination criteria. Change numbers to meet the maximum number of iterations or 
 to stop when the log-likelihood change between iterations falls below that value
 ```
