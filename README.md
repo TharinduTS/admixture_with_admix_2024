@@ -31,13 +31,13 @@ vcf-concat combined_Chr10.g.vcf.gz_Chr10_GenotypedSNPs.vcf.gz_filtered.vcf.gz_fi
 
 removed not needed samples
 ```bash
-vcftools --remove-indv F_Nigeria_EUA0331_combined__sorted.bam --remove-indv F_Nigeria_EUA0333_combined__sorted.bam --remove-indv M_Nigeria_EUA0334_combined__sorted.bam --remove-indv M_Nigeria_EUA0335_combined__sorted.bam --vcf no_cal_no_mello_chr7_15mb.vcf.recode.vcf.gz --recode --out no_cal_no_mello_chr7_15mb.vcf.recode.vcf.gz
+vcftools --remove-indv F_Nigeria_EUA0331_combined__sorted.bam --remove-indv F_Nigeria_EUA0333_combined__sorted.bam --remove-indv M_Nigeria_EUA0334_combined__sorted.bam --remove-indv M_Nigeria_EUA0335_combined__sorted.bam --remove-indv all_calcaratus_sorted.bam --remove-indv mello_GermSeq_sorted.bam --gzvcf trop_WGS_all_20_samples_all_chrs.vcf.gz --recode --out trop_WGS_no_cal_mello_niger_all_chrs.vcf.gz
 ```
 
 # Generate the input file in plink format
 ```bash
 FILE=Pundamilia.RAD
-plink --geno 0.999 --vcf no_cal_no_mello_chr7_15mb.vcf.recode.vcf.gz --make-bed --out $FILE --allow-extra-chr --double-id
+plink --geno 0.999 --vcf trop_WGS_no_cal_mello_niger_all_chrs.vcf.gz --make-bed --out $FILE --allow-extra-chr --double-id
 ```
 here I had to use --double-id as I had '_' s in my sample names
 --geno 0.999 remove all loci where more than 99.9% of genotypes are missing.
