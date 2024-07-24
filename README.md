@@ -3,9 +3,36 @@ This is based on
 
 https://speciationgenomics.github.io/ADMIXTURE/
 
-I am working in beluga and started by copying vcf file there
+I am working in beluga and started by copying vcf files there
 
-Then
+Then I combined them
+```bash
+#!/bin/sh
+#SBATCH --job-name=fst
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --time=2:00:00
+#SBATCH --mem=30gb
+#SBATCH --output=abba.%J.out
+#SBATCH --error=abba.%J.err
+#SBATCH --account=def-ben
+
+#SBATCH --mail-user=premacht@mcmaster.ca
+#SBATCH --mail-type=BEGIN
+#SBATCH --mail-type=END
+#SBATCH --mail-type=FAIL
+#SBATCH --mail-type=REQUEUE
+#SBATCH --mail-type=ALL
+
+module load vcftools
+
+vcf-concat combined_Chr10.g.vcf.gz_Chr10_GenotypedSNPs.vcf.gz_filtered.vcf.gz_filtered_removed.vcf.gz combined_Chr1.g.vcf.gz_Chr1_GenotypedSNPs.vcf.gz_filtered.vcf.gz_filtered_removed.vcf.gz combined_Chr2.g.vcf.gz_Chr2_GenotypedSNPs.vcf.gz_filtered.vcf.gz_filtered_removed.vcf.gz combined_Chr3.g.vcf.gz_Chr3_GenotypedSNPs.vcf.gz_filtered.vcf.gz_filtered_removed.vcf.gz combined_Chr4.g.vcf.gz_Chr4_GenotypedSNPs.vcf.gz_filtered.vcf.gz_filtered_removed.vcf.gz combined_Chr5.g.vcf.gz_Chr5_GenotypedSNPs.vcf.gz_filtered.vcf.gz_filtered_removed.vcf.gz combined_Chr6.g.vcf.gz_Chr6_GenotypedSNPs.vcf.gz_filtered.vcf.gz_filtered_removed.vcf.gz combined_Chr7.g.vcf.gz_Chr7_GenotypedSNPs.vcf.gz_filtered.vcf.gz_filtered_removed.vcf.gz combined_Chr8.g.vcf.gz_Chr8_GenotypedSNPs.vcf.gz_filtered.vcf.gz_filtered_removed.vcf.gz combined_Chr9.g.vcf.gz_Chr9_GenotypedSNPs.vcf.gz_filtered.vcf.gz_filtered_removed.vcf.gz | bgzip -c > trop_WGS_all_20_samples_all_chrs.vcf.gz
+```
+
+removed not needed samples
+```bash
+vcftools --remove-indv F_Nigeria_EUA0331_combined__sorted.bam --remove-indv F_Nigeria_EUA0333_combined__sorted.bam --remove-indv M_Nigeria_EUA0334_combined__sorted.bam --remove-indv M_Nigeria_EUA0335_combined__sorted.bam --vcf no_cal_no_mello_chr7_15mb.vcf.recode.vcf.gz --recode --out no_cal_no_mello_chr7_15mb.vcf.recode.vcf.gz
+```
 
 # Generate the input file in plink format
 ```bash
