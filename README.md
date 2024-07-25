@@ -52,29 +52,18 @@ module load vcftools
 
 vcftools --remove-indv F_Nigeria_EUA0331_combined__sorted.bam --remove-indv F_Nigeria_EUA0333_combined__sorted.bam --remove-indv M_Nigeria_EUA0334_combined__sorted.bam --remove-indv M_Nigeria_EUA0335_combined__sorted.bam --remove-indv all_calcaratus_sorted.bam --remove-indv mello_GermSeq_sorted.bam --gzvcf trop_WGS_all_20_samples_all_chrs.vcf.gz --recode --out trop_WGS_no_cal_mello_niger_all_chrs.vcf.gz
 ```
+the resulting file is a non zipped recode file 
+Therefore I had to rename it and gzip it
+```
+mv trop_WGS_no_cal_mello_niger_all_chrs.vcf.gz.recode.vcf trop_WGS_no_cal_mello_niger_all_chrs.vcf
+gzip trop_WGS_no_cal_mello_niger_all_chrs.vcf
 
+```
 # Generate the input file in plink format
-```bash
-#!/bin/sh
-#SBATCH --job-name=fst
-#SBATCH --nodes=1
-#SBATCH --ntasks-per-node=1
-#SBATCH --time=2:00:00
-#SBATCH --mem=30gb
-#SBATCH --output=abba.%J.out
-#SBATCH --error=abba.%J.err
-#SBATCH --account=def-ben
-
-#SBATCH --mail-user=premacht@mcmaster.ca
-#SBATCH --mail-type=BEGIN
-#SBATCH --mail-type=END
-#SBATCH --mail-type=FAIL
-#SBATCH --mail-type=REQUEUE
-#SBATCH --mail-type=ALL
-
+```
 module load plink
 FILE=trop_WGS
-plink --geno 0.999 --vcf trop_WGS_no_cal_mello_niger_all_chrs.vcf.gz.recode.vcf --make-bed --out $FILE --allow-extra-chr --double-id
+plink --geno 0.999 --vcf trop_WGS_no_cal_mello_niger_all_chrs.vcf.gz --make-bed --out $FILE --allow-extra-chr --double-id
 ```
 here I had to use --double-id as I had '_' s in my sample names
 --geno 0.999 remove all loci where more than 99.9% of genotypes are missing.
