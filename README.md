@@ -74,19 +74,18 @@ vcftools --remove-indv F_Nigeria_EUA0331_combined__sorted.bam --remove-indv F_Ni
 
 module load plink
 FILE=trop_WGS
-plink --geno 0.999 --vcf trop_WGS_no_cal_mello_niger_all_chrs.vcf.gz --make-bed --out $FILE --allow-extra-chr --double-id
-awk '{$1="0";print $0}' $FILE.bim > $FILE.bim.tmp
-mv $FILE.bim.tmp $FILE.bim
+plink --geno 0.999 --vcf trop_WGS_no_cal_mello_niger_all_chrs.vcf.gz.recode.vcf --make-bed --out $FILE --allow-extra-chr --double-id
 ```
 here I had to use --double-id as I had '_' s in my sample names
 --geno 0.999 remove all loci where more than 99.9% of genotypes are missing.
 
 This produces a bynch of support files. 
 
-ADMIXTURE does not accept chromosome names that are not human chromosomes. We will thus just exchange the first column by 0 with following lines which are already included in the script above
-
+ADMIXTURE does not accept chromosome names that are not human chromosomes. We will thus just exchange the first column by 0 with following lines 
+```
 awk '{$1="0";print $0}' $FILE.bim > $FILE.bim.tmp
 mv $FILE.bim.tmp $FILE.bim
+```
 
 Now, we are ready to run ADMIXTURE. We will run it with cross-validation (the default is 5-fold CV, for higher, choose e.g. cv=10) and K=2.
 
