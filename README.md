@@ -53,11 +53,9 @@ module load vcftools
 vcftools --remove-indv F_Nigeria_EUA0331_combined__sorted.bam --remove-indv F_Nigeria_EUA0333_combined__sorted.bam --remove-indv M_Nigeria_EUA0334_combined__sorted.bam --remove-indv M_Nigeria_EUA0335_combined__sorted.bam --remove-indv all_calcaratus_sorted.bam --remove-indv mello_GermSeq_sorted.bam --gzvcf trop_WGS_all_20_samples_all_chrs.vcf --recode --out trop_WGS_no_cal_mello_niger_all_chrs.vcf
 ```
 the resulting file is a non zipped recode file 
-Therefore I had to rename it and gzip it
+Therefore I had to bgzip it
 ```
-mv trop_WGS_no_cal_mello_niger_all_chrs.vcf.gz.recode.vcf trop_WGS_no_cal_mello_niger_all_chrs.vcf
-gzip trop_WGS_no_cal_mello_niger_all_chrs.vcf
-
+bgzip trop_WGS_no_cal_mello_niger_all_chrs.vcf.recode.vcf
 ```
 # Generate the input file in plink format
 ```
