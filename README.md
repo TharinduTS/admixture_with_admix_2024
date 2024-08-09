@@ -104,8 +104,8 @@ to stop when the log-likelihood change between iterations falls below that value
 #SBATCH --job-name=fst
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
-#SBATCH --time=72:00:00
-#SBATCH --mem=32gb
+#SBATCH --time=24:00:00
+#SBATCH --mem=64gb
 #SBATCH --output=abba.%J.out
 #SBATCH --error=abba.%J.err
 #SBATCH --account=def-ben
