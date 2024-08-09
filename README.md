@@ -77,7 +77,7 @@ bgzip trop_WGS_no_cal_mello_niger_all_chrs.vcf.recode.vcf
 #SBATCH --mail-type=ALL
 
 module load nixpkgs/16.09  intel/2016.4 plink/1.9b_5.2-x86_64
-plink --vcf ./trop_WGS_no_cal_mello_niger_all_chrs.vcf.recode.vcf.gz --make-bed --geno 0.999 --out ./s --allow-extra-chr --const-fid
+plink --vcf ./trop_WGS_no_cal_mello_niger_all_chrs.vcf.recode.vcf.gz --make-bed --geno 0.999 --out ./trop_WGS --allow-extra-chr --const-fid
 ```
 --geno 0.999 remove all loci where more than 99.9% of genotypes are missing.
 
