@@ -85,6 +85,7 @@ This produces a bunch of support files.
 
 ADMIXTURE does not accept chromosome names that are not human chromosomes. We will thus just exchange the first column by 0 with following lines 
 ```
+FILE=trop_WGS_outs
 awk '{$1="0";print $0}' $FILE.bim > $FILE.bim.tmp
 mv $FILE.bim.tmp $FILE.bim
 ```
