@@ -100,16 +100,34 @@ Change seed with -s. Or remove this to make it random
 -C is termination criteria. Change numbers to meet the maximum number of iterations or 
 to stop when the log-likelihood change between iterations falls below that value
 ```
-for i in {2..5}; do  admixture  -C 0.0000001 -s 12345 --cv $FILE.bed $i> log${i}.out; done
+#!/bin/sh
+#SBATCH --job-name=fst
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --time=72:00:00
+#SBATCH --mem=32gb
+#SBATCH --output=abba.%J.out
+#SBATCH --error=abba.%J.err
+#SBATCH --account=def-ben
+
+#SBATCH --mail-user=premacht@mcmaster.ca
+#SBATCH --mail-type=BEGIN
+#SBATCH --mail-type=END
+#SBATCH --mail-type=FAIL
+#SBATCH --mail-type=REQUEUE
+#SBATCH --mail-type=ALL
+
+module load admixture
+
+for i in {2..5}; do  admixture  -C 0.0000001 -s 1223235 --cv trop_WGS_outs.bed $i> log${i}.out; done
 ```
 To identify the best value of k clusters which is the value with lowest cross-validation error, we need to collect the cv errors. Below are three different ways to extract the number of K and the CV error for each corresponding K. Like we said at the start of the course, there are many ways to achieve the same thing in bioinformatics!
 
-use 1 from them
+using 1 from them
 
 ```
+FILE=trop_WGS_outs
 awk '/CV/ {print $3,$4}' *out | cut -c 4,7-20 > $FILE.cv.error
-grep "CV" *out | awk '{print $3,$4}' | sed -e 's/(//;s/)//;s/://;s/K=//'  > $FILE.cv.error
-grep "CV" *out | awk '{print $3,$4}' | cut -c 4,7-20 > $FILE.cv.error
 ```
 To make plotting easier, we can make a file with the individual names in one column and the species names in the second column
 
