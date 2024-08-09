@@ -125,6 +125,7 @@ I wanted to try multiple runs with different seed values. Therefore I copied all
 ```
 mkdir run2
 cp trop_WGS_outs* run2/
+cp cal_admix.sh run2/
 ```
 Then edited seed value and ran it
 To identify the best value of k clusters which is the value with lowest cross-validation error, we need to collect the cv errors. Below are three different ways to extract the number of K and the CV error for each corresponding K. Like we said at the start of the course, there are many ways to achieve the same thing in bioinformatics!
