@@ -121,6 +121,12 @@ module load admixture
 
 for i in {2..5}; do  admixture  -C 0.0000001 -s 1223235 --cv trop_WGS_outs.bed $i> log${i}.out; done
 ```
+I wanted to try multiple runs with different seed values. Therefore I copied all "trop_WGS_outs" files to different directories and ran them with different seed values
+```
+mkdir run2
+cp trop_WGS_outs* run2/
+```
+Then edited seed value and ran it
 To identify the best value of k clusters which is the value with lowest cross-validation error, we need to collect the cv errors. Below are three different ways to extract the number of K and the CV error for each corresponding K. Like we said at the start of the course, there are many ways to achieve the same thing in bioinformatics!
 
 using 1 from them
