@@ -59,14 +59,29 @@ bgzip trop_WGS_no_cal_mello_niger_all_chrs.vcf.recode.vcf
 ```
 # Generate the input file in plink format
 ```
-module load plink
-FILE=trop_WGS
-plink --geno 0.999 --vcf trop_WGS_no_cal_mello_niger_all_chrs.vcf.gz --make-bed --out $FILE --allow-extra-chr --double-id
+#!/bin/sh
+#SBATCH --job-name=fst
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --time=2:00:00
+#SBATCH --mem=30gb
+#SBATCH --output=abba.%J.out
+#SBATCH --error=abba.%J.err
+#SBATCH --account=def-ben
+
+#SBATCH --mail-user=premacht@mcmaster.ca
+#SBATCH --mail-type=BEGIN
+#SBATCH --mail-type=END
+#SBATCH --mail-type=FAIL
+#SBATCH --mail-type=REQUEUE
+#SBATCH --mail-type=ALL
+
+module load nixpkgs/16.09  intel/2016.4 plink/1.9b_5.2-x86_64
+plink --vcf ./trop_WGS_no_cal_mello_niger_all_chrs.vcf.recode.vcf.gz --make-bed --geno 0.999 --out ./s --allow-extra-chr --const-fid
 ```
-here I had to use --double-id as I had '_' s in my sample names
 --geno 0.999 remove all loci where more than 99.9% of genotypes are missing.
 
-This produces a bynch of support files. 
+This produces a bunch of support files. 
 
 ADMIXTURE does not accept chromosome names that are not human chromosomes. We will thus just exchange the first column by 0 with following lines 
 ```
